@@ -8,19 +8,18 @@
  */
 const sections = [
   {
-    label: 'Browse',
+    label: 'The archive',
     items: [
-      { href: '/genre/', label: 'By genre' },
-      { href: '/rating/', label: 'By rating' },
-      { href: '/year/', label: 'By year' },
-      { href: '/author/', label: 'By author' },
+      { href: '/books/', label: 'All shelves' },
+      { href: '/categories/', label: 'Shelf index' },
     ],
   },
   {
-    label: 'Lists',
+    label: 'Reader',
     items: [
-      { href: '/latest/', label: 'Latest summaries' },
-      { href: '/top/', label: 'Top-rated' },
+      { href: '/account/', label: 'My shelf' },
+      { href: '/about/', label: 'Colophon' },
+      { href: 'https://oriz.in', label: 'oriz.in' },
     ],
   },
 ]
@@ -41,9 +40,9 @@ const sections = [
   .sb-h {
     font-family: var(--font-mono, ui-monospace, monospace);
     font-size: 11px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ink-mute, #8a7f6e);
+    color: var(--dust, #8b93a0);
     margin: 0 0 0.5rem;
   }
   .sb-list { list-style: none; margin: 0; padding: 0; }
@@ -51,9 +50,10 @@ const sections = [
   .sb-link {
     display: block;
     padding: 4px 0;
-    color: var(--ink, #3a342b);
+    color: var(--ink, #e8e0ce);
     text-decoration: none;
     font-size: 14px;
+    transition: color 120ms;
   }
-  .sb-link:hover { color: var(--pencil, #2a2620); }
+  .sb-link:hover { color: var(--brass, #c8a24b); }
 </style>

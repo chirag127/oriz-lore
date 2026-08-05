@@ -12,6 +12,7 @@
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import ReadingRibbon from '~/components/ReadingRibbon.tsx'
+import ShelfMark from '~/components/ShelfMark.tsx'
 import Marginalia from '~/components/Marginalia.astro'
 import MDXFallback from '~/components/MDXFallback.astro'
 import { getCollection, render } from 'astro:content'
@@ -145,6 +146,9 @@ const jsonLd = {
             <span class="path-body"><em>{readingPath}</em></span>
           </p>
         )}
+        <div class="book-shelf">
+          <ShelfMark client:only="react" slug={data.slug} title={data.title} />
+        </div>
       </header>
 
       <section class="book-prose">
@@ -315,6 +319,9 @@ const jsonLd = {
   .path-body em {
     font-style: italic;
     color: var(--brass);
+  }
+  .book-shelf {
+    margin: 1.25rem 0 0;
   }
 
   /* Section rules with label set INTO the line. */

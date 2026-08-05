@@ -1,0 +1,33 @@
+---
+/*
+ * /account — the personal shelf. The only auth surface on the site; all
+ * reading elsewhere is public and ungated. Clerk owns identity; Firestore
+ * stores the marked volumes keyed by Clerk user id.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import AccountShelf from '~/components/AccountShelf.tsx'
+---
+
+<BaseLayout
+  title="My shelf — oriz·lore"
+  description="Your personal shelf of marked volumes on oriz·lore. Sign in to keep it."
+  noindex={true}
+>
+  <section class="spine page">
+    <header class="page-head">
+      <p class="eyebrow"><a href="/">oriz·lore</a> / my shelf</p>
+      <h1>My shelf</h1>
+      <p class="lede">The volumes you kept, by lamplight.</p>
+    </header>
+    <div class="acct-wrap">
+      <AccountShelf client:only="react" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .acct-wrap {
+    padding-block: 2.25rem 4rem;
+    max-width: var(--container-prose);
+  }
+</style>

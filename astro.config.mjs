@@ -22,16 +22,16 @@ export default defineConfig({
       injectRegister: null,
       manifest: {
         id: '/',
-        name: 'book·lore — reading commons',
-        short_name: 'book·lore',
+        name: 'oriz·lore — nocturne archive',
+        short_name: 'oriz·lore',
         description:
-          'A reading commons of structured book commentary — overview, content map, analysis, narration.',
+          'A nocturne archive of structured book commentary — overview, content map, analysis, narration.',
         start_url: '/',
         scope: '/',
         display: 'standalone',
         orientation: 'portrait',
-        theme_color: '#0F0D13',
-        background_color: '#0F0D13',
+        theme_color: '#14171C',
+        background_color: '#14171C',
         categories: ['books', 'education', 'reference'],
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },

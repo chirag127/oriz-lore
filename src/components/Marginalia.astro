@@ -30,11 +30,12 @@ const { note, by } = Astro.props
     display: block;
     margin: 0.75rem 0 1.25rem;
     padding: 0.5rem 0 0.5rem 1ch;
-    border-left: 2px solid var(--pencil);
-    color: var(--pencil);
+    border-left: 2px solid var(--foxing, var(--pencil));
+    color: var(--foxing, var(--pencil));
     font-family: var(--font-hand);
-    font-size: 1.125rem;
-    line-height: 1.4;
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1.45;
     max-width: 64ch;
   }
   .margin-note-by {
@@ -64,8 +65,8 @@ const { note, by } = Astro.props
       border-left: 0;
       transform: rotate(-1.5deg);
       transform-origin: top left;
-      font-size: 1.0625rem;
-      line-height: 1.35;
+      font-size: 1.05rem;
+      line-height: 1.4;
     }
     .book-canvas .margin-note::before {
       content: '';
@@ -74,7 +75,7 @@ const { note, by } = Astro.props
       left: -32px;
       width: 24px;
       height: 1px;
-      background: var(--pencil);
+      background: var(--foxing, var(--pencil));
       transform: rotate(-12deg);
       transform-origin: right center;
     }

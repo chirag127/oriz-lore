@@ -7,10 +7,10 @@ export interface SiteConfig {
 }
 
 export const SITE_CONFIG: SiteConfig = {
-  slug: 'book-lore',
-  name: 'book·lore',
+  slug: 'lore',
+  name: 'oriz·lore',
   origin: 'https://lore.oriz.in',
-  tagline: 'a reading commons of structured book commentary',
+  tagline: 'a nocturne archive of structured book commentary',
   description:
-    'book·lore is a reading commons of structured book commentary — overview, content map, analysis, narration. Set on aged cream with marginalia in pencil red.',
+    'oriz·lore is a nocturne archive of structured book commentary — overview, content map, analysis, narration. Read by lamplight on a darkened page.',
 }

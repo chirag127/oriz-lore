@@ -1,30 +1,21 @@
 ---
 /*
- * Home — reading-room dashboard, NOT a card grid.
+ * Home — the nocturne archive's opening leaf.
  *
- * Drop-cap "No. NNN" + headline "Books, read on your behalf." + a recently-
- * annotated running list with marginalia, then shelves rendered as
- * horizontal --brass rules with discipline name + count typeset INTO the rule.
- *
- * The four section labels per book — overview · content map · analysis ·
- * narration — are rendered in mono small-caps separated by middots. A
- * sufficiency dot row (●●●●○) sits right-aligned. Optional Caveat
- * marginalia hangs to the right where viewport allows.
+ * Hero is a THESIS, not a metric: an opening line set large in Fraunces,
+ * lamplit, stating what this place does — reads books on your behalf and keeps
+ * the commentary. The living volume count is a quiet catalog stamp beneath it,
+ * NOT the headline. Then a running list of recently annotated volumes with
+ * foxed-ink marginalia, and the shelves typeset into gilt rules.
  */
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import Marginalia from '~/components/Marginalia.astro'
 import { getCollection } from 'astro:content'
 import { SITE_CONFIG } from '~/lib/siteConfig'
 
-// Book inventory.
 const allBooks = await getCollection('books')
 const totalBooks = allBooks.length
 
-// We don't (yet) track which sections were authored per book. The MDX loaders
-// glob the same disk tree the books loader does, so we cross-reference here
-// to know which of the four artifacts exists for each slug. This is the
-// data behind the dot-rating row and the dimmed `— — —` for unwritten
-// sections — sufficiency is data-driven, not a frontmatter promise.
 const overview = await getCollection('overview')
 const content = await getCollection('content')
 const analysis = await getCollection('analysis')
@@ -37,7 +28,6 @@ interface Annotated {
   slug: string
   title: string
   authors: string[]
-  excerpt: string
   category?: string
   addedAt: number
   sections: { overview: boolean; content: boolean; analysis: boolean; narration: boolean }
@@ -56,7 +46,6 @@ const annotated: Annotated[] = allBooks.map((b) => {
     slug: b.data.slug,
     title: b.data.title,
     authors: b.data.authors,
-    excerpt: b.data.excerpt,
     category: b.data.category,
     addedAt: b.data.addedAt ?? 0,
     sections,
@@ -64,19 +53,15 @@ const annotated: Annotated[] = allBooks.map((b) => {
   }
 })
 
-// Most-recently annotated first; otherwise alphabetic. Take 8.
 const recent = [...annotated]
   .sort((a, b) => b.addedAt - a.addedAt || a.title.localeCompare(b.title))
   .slice(0, 8)
 
-// A small set of inline marginalia that hang on specific rows. Keeps the
-// home page hand-warmed without inventing fake author voices.
 const handNotes: Record<string, string> = {
   'thinking-fast-and-slow-daniel-kahneman': 'this one finally clicked on reread',
   'noise-daniel-kahneman': 'narration pending; analysis is enough',
 }
 
-// Shelves: discipline (top category) name + count typeset into a brass rule.
 function labelFromSlug(slug: string) {
   const cleaned = slug.replace(/^\d+-/, '')
   return cleaned
@@ -92,48 +77,46 @@ for (const b of allBooks) {
 }
 const shelves = Array.from(shelfMap.values()).sort((a, b) => b.count - a.count)
 
-// Drop-cap issue number — pad to 3.
 const issueNo = String(totalBooks).padStart(3, '0')
-
-// Aggregate sufficiency for the headline.
-const totalFilled = annotated.reduce((s, a) => s + a.filled, 0)
-const avgFilled = totalBooks > 0 ? totalFilled / totalBooks : 0
-const headlineDots = Math.round(avgFilled)
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'book·lore',
+  name: 'oriz·lore',
   url: SITE_CONFIG.origin,
   description: SITE_CONFIG.description,
 }
 ---
 
 <BaseLayout
-  title={`book·lore — ${SITE_CONFIG.tagline}`}
+  title={`oriz·lore — ${SITE_CONFIG.tagline}`}
   description={SITE_CONFIG.description}
   jsonLd={jsonLd}
 >
-  <section class="spine masthead">
-    <p class="issue mono-caps" aria-label={`Volume ${issueNo}`}>
-      <span class="issue-prefix">No.</span><span class="issue-num">{issueNo}</span>
+  <section class="spine masthead" aria-labelledby="thesis">
+    <p class="stamp mono-caps">
+      <span class="stamp-word">the nocturne archive</span>
+      <span class="stamp-no">No.&nbsp;{issueNo}</span>
     </p>
-    <h1 class="headline">
-      Books, <em>read on your behalf.</em>
+    <h1 class="thesis" id="thesis">
+      Every book here has been <em>read to the end</em>,
+      so the next reader can begin <em>in the middle</em>.
     </h1>
     <p class="lede">
-      <span class="num mono">{totalBooks}</span> volumes annotated since 2024.
-      <span class="dots" aria-hidden="true">{Array.from({ length: 4 }).map((_, i) => (
-        <span class={i < headlineDots ? 'dot fill' : 'dot'}>●</span>
-      ))}</span>
-      {avgFilled >= 3.5 ? <span class="suff">sufficient.</span> : <span class="suff">developing.</span>}
+      Structured commentary kept by lamplight — <span class="four mono-caps">overview
+      · content&nbsp;map · analysis · narration</span> — for
+      <span class="count">{totalBooks}</span> volumes and counting. Nothing here is gated.
+      Open any leaf.
+    </p>
+    <p class="enter">
+      <a href="/books/" class="enter-link">enter the shelves ›</a>
     </p>
   </section>
 
   <hr class="hairline" />
 
   <section class="spine annotated" aria-labelledby="annotated-h">
-    <h2 id="annotated-h" class="section-h label-display">recently annotated</h2>
+    <h2 id="annotated-h" class="section-h label-display">most recently annotated</h2>
     <ol class="run-list">
       {recent.map((b) => (
         <li class="run-row" data-slug={b.slug}>
@@ -142,18 +125,18 @@ const jsonLd = {
               <span class="run-title">{b.title}</span>
               <span class="run-byline">{b.authors[0] ? `· ${b.authors[0]}` : ''}</span>
               <span class="run-suff" aria-label={`${b.filled} of 4 sections written`}>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span class={i < b.filled ? 'dot fill' : 'dot'}>●</span>
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <span class={i < b.filled ? 'pip fill' : 'pip'} aria-hidden="true"></span>
                 ))}
               </span>
             </div>
             <p class="run-sections mono-caps" aria-hidden="true">
               <span class={b.sections.overview ? '' : 'absent'}>overview</span>
-              <span class="bullet">·</span>
+              <span class="mid">·</span>
               <span class={b.sections.content ? '' : 'absent'}>content map</span>
-              <span class="bullet">·</span>
+              <span class="mid">·</span>
               <span class={b.sections.analysis ? '' : 'absent'}>analysis</span>
-              <span class="bullet">·</span>
+              <span class="mid">·</span>
               <span class={b.sections.narration ? '' : 'absent'}>narration</span>
             </p>
           </a>
@@ -168,13 +151,13 @@ const jsonLd = {
   </section>
 
   <section class="spine shelves" aria-labelledby="shelves-h">
-    <h2 id="shelves-h" class="section-h label-display">shelves</h2>
+    <h2 id="shelves-h" class="section-h label-display">the shelves</h2>
     <ul class="shelf-list">
       {shelves.map((s) => (
         <li class="shelf">
           <a href={`/categories/#${s.label.replace(/\s+/g, '-')}`} class="shelf-link">
-            <span class="shelf-name label-display">{s.label}</span>
-            <span class="shelf-count mono-caps">{s.count} {s.count === 1 ? 'volume' : 'volumes'}</span>
+            <span class="shelf-name">{s.label}</span>
+            <span class="shelf-count mono-caps">{s.count} {s.count === 1 ? 'vol' : 'vols'}</span>
           </a>
         </li>
       ))}
@@ -184,90 +167,89 @@ const jsonLd = {
 
 <style>
   .masthead {
-    padding-block: clamp(2.75rem, 7vw, 4.5rem) 2rem;
+    padding-block: clamp(3rem, 9vw, 5.5rem) 2.25rem;
     position: relative;
   }
-  .issue {
+  .stamp {
     display: flex;
     align-items: baseline;
-    gap: 0.25rem;
+    justify-content: space-between;
+    gap: 1rem;
     color: var(--brass);
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .stamp-word {
+    letter-spacing: 0.24em;
+    color: var(--brass);
+  }
+  .stamp-no {
+    color: var(--dust);
+    font-variant-numeric: tabular-nums;
+  }
+  .thesis {
     font-family: var(--font-display);
-    font-size: clamp(3.5rem, 9vw, 6rem);
-    font-style: italic;
-    line-height: 1;
-    margin: 0 0 1rem;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-  .issue-prefix {
-    font-size: 0.45em;
-    font-style: italic;
-    font-variant-caps: small-caps;
-    letter-spacing: 0.08em;
-    color: var(--brass);
-    margin-right: 0.1em;
-  }
-  .issue-num {
-    color: var(--brass);
-    font-feature-settings:
-      'lnum' 1,
-      'tnum' 1;
-  }
-  .headline {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(2rem, 5vw, 2.5938rem); /* 41.5px target */
-    line-height: 1.15;
-    letter-spacing: 0;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: clamp(2.1rem, 5.6vw, 3.55rem);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
     margin: 0;
-    max-width: 36ch;
+    max-width: 18ch;
     color: var(--ink);
+    text-wrap: balance;
   }
-  .headline em {
+  .thesis em {
     font-style: italic;
     font-weight: 500;
-    color: var(--ink);
+    color: var(--brass);
   }
   .lede {
-    margin: 1.5rem 0 0;
+    margin: 1.75rem 0 0;
     color: var(--ink-mute);
     font-family: var(--font-serif);
-    font-size: 1.0625rem;
-    line-height: 1.6;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    max-width: 52ch;
   }
-  .lede .num {
-    color: var(--ink);
+  .lede .four {
+    color: var(--dust);
+    font-size: 0.72em;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .lede .count {
+    color: var(--brass);
     font-family: var(--font-mono);
-    font-feature-settings:
-      'tnum' 1,
-      'lnum' 1;
-    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.92em;
   }
-  .dots {
-    display: inline-flex;
-    gap: 0.125em;
-    margin-inline: 0.4em;
-    vertical-align: 0.05em;
+  .enter {
+    margin: 1.75rem 0 0;
   }
-  .dot {
-    color: var(--rule);
-    font-size: 0.75rem;
-    line-height: 1;
+  .enter-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--verdigris, #6e9e86);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in oklab, var(--bottle) 45%, transparent);
+    padding-bottom: 2px;
+    transition: color 120ms, border-color 120ms;
   }
-  .dot.fill {
-    color: var(--pencil);
-  }
-  .suff {
-    font-style: italic;
-    color: var(--ink-mute);
+  .enter-link:hover {
+    color: var(--ink);
+    border-color: var(--bottle);
   }
 
   .annotated {
-    padding-block: 2.5rem 1rem;
+    padding-block: 2.75rem 1rem;
   }
   .section-h {
-    font-size: 0.8125rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
     margin: 0 0 1.5rem;
   }
 
@@ -280,7 +262,7 @@ const jsonLd = {
   }
   .run-row {
     position: relative;
-    padding-block: 1.125rem;
+    padding-block: 1.2rem;
     border-top: 1px solid var(--rule);
   }
   .run-row:last-child {
@@ -299,30 +281,43 @@ const jsonLd = {
   }
   .run-title {
     font-family: var(--font-display);
+    font-optical-sizing: auto;
     font-weight: 600;
-    font-size: 1.3281rem; /* 21.25px */
+    font-size: 1.375rem;
     color: var(--ink);
     line-height: 1.2;
+    transition: color 120ms;
   }
   .run-link:hover .run-title {
-    color: var(--pencil);
+    color: var(--brass);
   }
   .run-byline {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
     color: var(--ink-mute);
   }
   .run-suff {
     margin-left: auto;
     display: inline-flex;
-    gap: 0.125em;
-    color: var(--rule);
-    font-size: 0.75rem;
+    align-items: center;
+    gap: 0.28rem;
+  }
+  .pip {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--rule);
+  }
+  .pip.fill {
+    background: var(--brass);
+    border-color: var(--brass);
+    box-shadow: 0 0 6px color-mix(in oklab, var(--brass) 50%, transparent);
   }
   .run-sections {
-    margin: 0.5rem 0 0;
-    color: var(--ink-mute);
+    margin: 0.55rem 0 0;
+    color: var(--dust);
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -333,12 +328,10 @@ const jsonLd = {
     text-decoration: line-through;
     text-decoration-color: var(--rule);
   }
-  .run-sections .bullet {
+  .run-sections .mid {
     color: var(--brass);
   }
   .run-margin {
-    /* Default block-flow rendering of <Marginalia/> below the row. On wide
-       viewports we lift it into the right margin column. */
     margin-top: 0.25rem;
   }
   @media (min-width: 1100px) {
@@ -347,7 +340,7 @@ const jsonLd = {
     }
     .run-margin {
       position: absolute;
-      top: 1.25rem;
+      top: 1.3rem;
       right: 0;
       width: 220px;
       margin-top: 0;
@@ -358,36 +351,31 @@ const jsonLd = {
       border-left: 0;
       padding: 0;
       margin: 0;
-      font-size: 1.0625rem;
-      line-height: 1.35;
+      font-size: 1.05rem;
+      line-height: 1.4;
       max-width: 22ch;
     }
   }
 
   .shelves {
-    padding-block: 2rem 4rem;
+    padding-block: 2.25rem 4rem;
   }
   .shelf-list {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
   }
   .shelf {
     margin: 0;
   }
-  /* The shelf rule with discipline name + count typeset INTO it.
-     We draw a 1px brass line that runs the full row, and overlay the label
-     in a paper-colored span that "cuts" the line behind the text. */
+  /* Shelf name + count typeset INTO a gilt rule. */
   .shelf-link {
     position: relative;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
-    padding-block: 1.125rem;
+    padding-block: 1.15rem;
     text-decoration: none;
     color: var(--ink);
   }
@@ -398,7 +386,7 @@ const jsonLd = {
     right: 0;
     top: 50%;
     height: 1px;
-    background: color-mix(in oklab, var(--brass) 70%, transparent);
+    background: color-mix(in oklab, var(--brass) 40%, transparent);
     transform: translateY(-50%);
     pointer-events: none;
   }
@@ -406,31 +394,26 @@ const jsonLd = {
   .shelf-count {
     position: relative;
     background: var(--paper);
-    padding-inline: 0.625rem;
+    padding-inline: 0.7rem;
     z-index: 1;
   }
   .shelf-name {
     font-family: var(--font-display);
     font-style: italic;
-    font-variant-caps: small-caps;
-    font-size: 1.125rem;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: 1.2rem;
     color: var(--ink);
-    letter-spacing: 0.04em;
+    letter-spacing: 0;
     padding-left: 0;
+    transition: color 120ms;
   }
   .shelf-count {
     color: var(--brass);
-    font-family: var(--font-mono);
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
     padding-right: 0;
   }
   .shelf-link:hover .shelf-name {
-    color: var(--pencil);
-  }
-  .shelf-link:focus-visible {
-    outline: 2px solid var(--pencil);
-    outline-offset: 4px;
+    color: var(--brass);
   }
 </style>

@@ -1,31 +1,29 @@
 ---
 /*
- * Wordmark — book·lore set in Cormorant Garamond italic small-caps.
- * The middot is `--pencil`. This is the site brand, not the family
- * `oriz` strike (per the v2 spec: book-lore has its own wordmark since
- * the site is a discrete reading-room, not a re-skinned almanac).
+ * Wordmark — oriz·lore set in Fraunces italic. The middot glows gilt (--brass),
+ * the one lamplit mark on the page. This is the site brand for the nocturne
+ * archive; the family "oriz.in" link lives beside it in chrome.
  */
-
 interface Props {
   size?: number
   href?: string | null
 }
 
-const { size = 21.25, href = '/' } = Astro.props
+const { size = 22, href = '/' } = Astro.props
 ---
 
 {
   href ? (
-    <a class="wordmark-link" href={href} aria-label="book·lore">
+    <a class="wordmark-link" href={href} aria-label="oriz·lore">
       <span class="wordmark" style={`--wm-size: ${size}px;`}>
-        <span class="wordmark-word">book</span>
+        <span class="wordmark-word">oriz</span>
         <span class="wordmark-mid" aria-hidden="true">·</span>
         <span class="wordmark-word">lore</span>
       </span>
     </a>
   ) : (
     <span class="wordmark" style={`--wm-size: ${size}px;`}>
-      <span class="wordmark-word">book</span>
+      <span class="wordmark-word">oriz</span>
       <span class="wordmark-mid" aria-hidden="true">·</span>
       <span class="wordmark-word">lore</span>
     </span>
@@ -43,11 +41,11 @@ const { size = 21.25, href = '/' } = Astro.props
     align-items: baseline;
     font-family: var(--font-display);
     font-style: italic;
-    font-variant-caps: small-caps;
-    font-weight: 500;
-    font-size: var(--wm-size, 21.25px);
+    font-weight: 600;
+    font-optical-sizing: auto;
+    font-size: var(--wm-size, 22px);
     line-height: 1;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.005em;
     color: var(--ink);
   }
   .wordmark-word {
@@ -55,12 +53,10 @@ const { size = 21.25, href = '/' } = Astro.props
   }
   .wordmark-mid {
     display: inline-block;
-    margin-inline: 0.05em;
-    color: var(--pencil);
+    margin-inline: 0.04em;
+    color: var(--brass);
     font-style: normal;
-    transform: translateY(-0.05em);
-  }
-  .wordmark-link:hover .wordmark-mid {
-    color: var(--pencil);
+    transform: translateY(-0.06em);
+    text-shadow: 0 0 10px color-mix(in oklab, var(--brass) 55%, transparent);
   }
 </style>

@@ -1,39 +1,40 @@
 ---
 /*
- * Header — single 1px brass rule + wordmark + three text links in mono small-caps.
- *
- * Layout (matches design-briefs/oriz-book-lore.md "Header"):
- *   ─── brass rule ────────────────────────────────────────────────────
- *   book·lore                                  shelves · about · /
- *   ─── brass rule ────────────────────────────────────────────────────
- *
- * On book pages, a `breadcrumb` slot can be passed to render a spine line
- * BELOW the rule indented to the article column:
- *   book·lore · cognition · Thinking, Fast and Slow
- *
- * No nav bar, no logo mark, no theme toggle. Theme lives in the footer.
+ * Header — nocturne archive chrome. A thin gilt rule, the wordmark, then the
+ * catalog nav in Space Mono small-caps, the Clerk sign-in island, and the
+ * family "oriz.in" link (themed gilt). Breadcrumb spine on book pages renders
+ * below the rule.
  */
 import Wordmark from '~/components/Wordmark.astro'
 
 interface Props {
-  /** Optional breadcrumb spine for book pages: e.g. "shelves · cognition · 047" */
   breadcrumb?: string
 }
 
 const { breadcrumb } = Astro.props
+const clerkOn = !!import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY
 ---
 
 <header class="header">
   <hr class="hairline-brass" />
   <div class="spine header-row">
     <Wordmark href="/" />
-    <nav class="header-nav" aria-label="Primary">
-      <a href="/books/" class="nav-link mono-caps">shelves</a>
-      <span class="dot" aria-hidden="true">·</span>
-      <a href="/about/" class="nav-link mono-caps">about</a>
-      <span class="dot" aria-hidden="true">·</span>
-      <a href="/categories/" class="nav-link mono-caps">categories</a>
-    </nav>
+    <div class="header-right">
+      <nav class="header-nav" aria-label="Primary">
+        <a href="/books/" class="nav-link mono-caps">shelves</a>
+        <span class="dot" aria-hidden="true">·</span>
+        <a href="/categories/" class="nav-link mono-caps">index</a>
+        <span class="dot" aria-hidden="true">·</span>
+        <a href="/about/" class="nav-link mono-caps">colophon</a>
+      </nav>
+      <span class="hdr-sep" aria-hidden="true"></span>
+      <a
+        href="https://oriz.in"
+        class="oriz-link mono-caps"
+        aria-label="oriz.in — the family of sites"
+      >oriz.in</a>
+      {clerkOn && <a href="/account/" class="nav-link account-link mono-caps">my shelf</a>}
+    </div>
   </div>
   {breadcrumb && (
     <div class="spine breadcrumb mono-caps">
@@ -45,14 +46,20 @@ const { breadcrumb } = Astro.props
 <style>
   .header {
     position: relative;
+    background: var(--paper);
   }
   .header-row {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    height: 56px;
-    padding-block: 14px 0;
+    min-height: 58px;
+    padding-block: 12px;
+  }
+  .header-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
   }
   .header-nav {
     display: inline-flex;
@@ -62,37 +69,60 @@ const { breadcrumb } = Astro.props
   .nav-link {
     color: var(--ink-mute);
     text-decoration: none;
-    transition: color 100ms;
+    transition: color 120ms;
   }
   .nav-link:hover {
-    color: var(--pencil);
-  }
-  .nav-link:focus-visible {
-    outline: 2px solid var(--pencil);
-    outline-offset: 3px;
+    color: var(--brass);
   }
   .dot {
     color: var(--brass);
     font-family: var(--font-mono);
     font-size: 12px;
   }
+  .hdr-sep {
+    width: 1px;
+    height: 16px;
+    background: var(--rule);
+  }
+  .oriz-link {
+    color: var(--brass);
+    text-decoration: none;
+    letter-spacing: 0.14em;
+    transition: color 120ms, text-shadow 120ms;
+  }
+  .oriz-link:hover {
+    color: var(--ink);
+    text-shadow: 0 0 10px color-mix(in oklab, var(--brass) 45%, transparent);
+  }
+  .account-link {
+    color: var(--brass);
+  }
+  .account-link:hover {
+    color: var(--ink);
+  }
   .breadcrumb {
     padding-block: 0.5rem 0.75rem;
-    color: var(--ink-mute);
+    color: var(--dust);
   }
   .breadcrumb :global(a) {
-    color: var(--ink-mute);
+    color: var(--dust);
     text-decoration: none;
   }
   .breadcrumb :global(a:hover) {
-    color: var(--pencil);
+    color: var(--brass);
   }
-  @media (max-width: 560px) {
+  @media (max-width: 720px) {
     .header-row {
       flex-wrap: wrap;
-      height: auto;
-      padding-block: 12px;
-      gap: 0.5rem;
+      min-height: 0;
+      gap: 0.6rem;
+    }
+    .header-right {
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .hdr-sep {
+      display: none;
     }
   }
 </style>

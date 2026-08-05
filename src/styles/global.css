@@ -1,79 +1,62 @@
-/* MD3 dark tokens */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap');
-:root {
-  --md-surface:#0F0D13; --md-surface-container-low:#1D1B20;
-  --md-surface-container:#211F26; --md-surface-container-high:#2B2930;
-  --md-surface-container-highest:#36343B;
-  --md-primary:#D0BCFF; --md-on-primary:#381E72;
-  --md-primary-container:#4F378B; --md-on-primary-container:#EADDFF;
-  --md-secondary:#CCC2DC; --md-secondary-container:#4A4458;
-  --md-on-secondary-container:#E8DEF8;
-  --md-outline:#938F99; --md-outline-variant:#49454F;
-  --md-on-surface:#E6E1E5; --md-on-surface-variant:#CAC4D0;
-  --md-shape-sm:8px; --md-shape-md:12px; --md-shape-lg:16px; --md-shape-xl:28px;
-  --md-font-display:"Google Sans Display","Google Sans",Roboto,sans-serif;
-  --md-font-body:"Google Sans Text","Google Sans",Roboto,sans-serif;
-  --md-font-mono:"Roboto Mono",monospace;
-  color-scheme: dark;
-}
-body { background: var(--md-surface); color: var(--md-on-surface-variant); font-family: var(--md-font-body); }
-a { color: var(--md-primary); }
-h1,h2,h3,h4 { font-family: var(--md-font-display); color: var(--md-on-surface); }
-code, pre { font-family: var(--md-font-mono); }
-pre { background: var(--md-surface-container-high); padding: 16px; border-radius: 12px; }
-
 @import 'tailwindcss';
 
 /*
- * oriz-book-lore — v2 reading-commons tokens
+ * oriz-lore — "Nocturne Archive"
  *
- * Surface: aged cream `#F2EAD8`, warmer than blog/pdf-tools/urls-to-md to
- * reduce surface collision in the family. Five colors, no others:
+ * The private library after hours. A green-shaded reading lamp throws a pool
+ * of warm light onto aged vellum; ink has gone brown at the edges; gilt on a
+ * spine catches the glow. Light text on a warm blue-black slate — NOT pure
+ * black, NOT daylit cream. Inverted reading room.
  *
- *   --paper / --paper-2   the surfaces (paper + margin band)
- *   --ink                 warm black body
- *   --pencil              pencil-red marginalia + section rules + middot
- *   --bottle              bottle-green reading ribbon (live progress)
- *   --brass               page numerals, drop-cap "No.", breadcrumb middots
+ * Palette (6 named values, no others):
+ *   --night     #14171C  deep blue-black slate — the darkened room
+ *   --slate-2   #1C2027  raised surface (aside/footer/cards) — a shade nearer the lamp
+ *   --vellum    #E8E0CE  aged page — the ink-on-dark body text
+ *   --lamp      #C8A24B  aged gilt / lamplight — page numerals, the glow, primary accent
+ *   --verdigris #6E9E86  oxidized banker's-lamp green — live reading ribbon, links
+ *   --foxing    #C08258  foxed-paper rust — marginalia ink, annotation
+ *   --dust      #8B93A0  cool muted slate — secondary text, hairlines
  *
- * Pencil-red is the PRIMARY accent — justified by the marginalia metaphor.
- * No reserve. There is no blue, purple, or teal anywhere on this site.
+ * Lamp gilt is the PRIMARY accent; verdigris the live/interactive second;
+ * foxing the hand-annotation ink. No blue, purple, teal, or red anywhere.
  *
- * Dark variant: cream → candle-lit reading room, NOT a black void.
- * Tokens are pre-painted (no color-mix at runtime) for solid hairlines.
+ * Type trio (deliberately NOT Cormorant/Playfair — the cream-serif cliché):
+ *   Fraunces     display — soft optical old-style serif, literary + wonky
+ *   Spectral     body    — screen-tuned reading serif with real texture
+ *   Space Mono   utility — retro catalog-card mono for labels/data
  */
 
 @theme {
-  --font-display: 'Cormorant Garamond', 'GT Sectra', 'Source Serif 4', Georgia, serif;
-  --font-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, serif;
-  --font-hand: 'Caveat', 'Bradley Hand', cursive;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: 'Fraunces', 'Hoefler Text', Georgia, serif;
+  --font-serif: 'Spectral', 'Iowan Old Style', Georgia, serif;
+  --font-hand: 'Fraunces', Georgia, serif;
+  --font-mono: 'Space Mono', ui-monospace, 'JetBrains Mono', Menlo, monospace;
 
-  --container-spine: 920px;
-  --container-prose: 64ch;
+  --container-spine: 940px;
+  --container-prose: 66ch;
+
+  --color-night: #14171c;
+  --color-slate-2: #1c2027;
+  --color-vellum: #e8e0ce;
+  --color-lamp: #c8a24b;
+  --color-verdigris: #6e9e86;
+  --color-foxing: #c08258;
+  --color-dust: #8b93a0;
 }
 
 @layer base {
   :root {
     color-scheme: dark;
 
-    /* MD3-mapped surface/ink aliases for legacy selectors */
-    --paper: var(--md-surface);
-    --paper-2: var(--md-surface-container);
-    --ink: var(--md-on-surface);
-    --ink-mute: var(--md-on-surface-variant);
-    --pencil: var(--md-primary);
-    --bottle: var(--md-secondary);
-    --brass: var(--md-on-primary-container);
-    --rule: var(--md-outline-variant);
-  }
-
-  /* Dark variant — now always dark-first via MD3 tokens above */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      color-scheme: dark;
-      /* tokens already set at :root level above; no overrides needed */
-    }
+    --paper: #14171c;
+    --paper-2: #1c2027;
+    --ink: #e8e0ce;
+    --ink-mute: #b9b2a2;
+    --pencil: #c08258; /* marginalia / annotation ink (foxing) */
+    --bottle: #6e9e86; /* live reading ribbon (verdigris) */
+    --brass: #c8a24b; /* gilt lamplight — page numerals, accents */
+    --rule: #2a2f38; /* hairline in the dark */
+    --dust: #8b93a0;
   }
 
   html {
@@ -89,7 +72,7 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
     color: var(--ink);
     font-family: var(--font-serif);
     font-size: 17px;
-    line-height: 1.7;
+    line-height: 1.72;
     overflow-y: scroll;
     margin: 0;
     -webkit-font-smoothing: antialiased;
@@ -108,12 +91,11 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
     font-family: var(--font-mono);
     font-feature-settings:
       'tnum' 1,
-      'zero' 1,
-      'calt' 0;
+      'zero' 1;
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--pencil) 22%, transparent);
+    background: color-mix(in oklab, var(--brass) 28%, transparent);
     color: var(--ink);
   }
 
@@ -121,22 +103,27 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
     color: inherit;
     text-decoration: none;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
 }
 
-/* Single broadsheet column. */
+/* Single reading column. */
 .spine {
   max-width: var(--container-spine);
   margin-inline: auto;
   padding-inline: clamp(1.5rem, 4vw, 2rem);
 }
 
-/* 64ch reading column for body prose. */
 .prose-column {
   max-width: var(--container-prose);
   margin-inline: auto;
 }
 
-/* Hairline rules — 1px in --rule, no opacity. */
+/* Hairlines. */
 .hairline {
   height: 1px;
   background: var(--rule);
@@ -145,35 +132,34 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
 }
 .hairline-brass {
   height: 1px;
-  background: var(--brass);
+  background: color-mix(in oklab, var(--brass) 55%, transparent);
   border: 0;
   margin: 0;
 }
 
-/* Mono small-caps utility for breadcrumb spine, footer link rows, sufficiency. */
+/* Space Mono catalog-label voice. */
 .mono-caps {
   font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--ink-mute);
+  letter-spacing: 0.16em;
+  color: var(--dust);
   font-feature-settings:
     'tnum' 1,
-    'zero' 1,
-    'calt' 0;
+    'zero' 1;
 }
 
-/* Cormorant italic small-caps — the section-label voice. */
+/* Fraunces italic section-label voice — lamplit gilt. */
 .label-display {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 500;
-  font-variant-caps: small-caps;
-  letter-spacing: 0.08em;
-  color: var(--pencil);
+  font-optical-sizing: auto;
+  letter-spacing: 0.01em;
+  color: var(--brass);
 }
 
-/* Page-head pattern shared by sub-pages (about, contact, account, legal/*). */
+/* Shared sub-page head. */
 .page-head {
   padding-block: clamp(2rem, 6vw, 3.25rem) 1.25rem;
   border-bottom: 1px solid var(--rule);
@@ -181,23 +167,24 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
 .page-head .eyebrow {
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-mute);
+  color: var(--dust);
   margin: 0 0 0.875rem;
 }
 .page-head .eyebrow a {
-  color: var(--ink-mute);
+  color: var(--dust);
 }
 .page-head .eyebrow a:hover {
-  color: var(--pencil);
+  color: var(--brass);
 }
 .page-head h1 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(2rem, 5vw, 2.75rem);
-  line-height: 1.1;
-  letter-spacing: 0;
+  font-optical-sizing: auto;
+  font-size: clamp(2.15rem, 5.5vw, 3.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   margin: 0;
   color: var(--ink);
 }
@@ -207,43 +194,46 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
   font-size: 1.0625rem;
   max-width: 60ch;
   font-style: italic;
+  font-family: var(--font-display);
 }
 .page-head .meta {
-  margin: 0.625rem 0 0;
+  margin: 0.75rem 0 0;
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-mute);
+  color: var(--dust);
 }
 
-/* Generic prose pattern shared by static pages. */
+/* Generic prose. */
 .prose {
   padding-block: 2.25rem 4rem;
   color: var(--ink);
-  line-height: 1.7;
+  line-height: 1.72;
   font-size: 1.0625rem;
   font-family: var(--font-serif);
   max-width: var(--container-prose);
 }
 .prose .lede {
-  font-size: 1.1875rem;
+  font-size: 1.2rem;
   color: var(--ink);
   font-style: italic;
+  font-family: var(--font-display);
   margin: 0 0 1.75rem;
 }
 .prose h2 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.5rem;
-  letter-spacing: 0;
+  font-optical-sizing: auto;
+  font-size: 1.55rem;
+  letter-spacing: -0.005em;
   color: var(--ink);
   margin: 2.5rem 0 0.875rem;
 }
 .prose h3 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.1875rem;
+  font-size: 1.2rem;
   color: var(--ink);
   margin: 1.75rem 0 0.625rem;
 }
@@ -251,18 +241,21 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
   margin: 0 0 1.125rem;
 }
 .prose a {
-  color: var(--pencil);
+  color: var(--bottle);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
-  text-decoration-color: color-mix(in oklab, var(--pencil) 50%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--bottle) 50%, transparent);
 }
 .prose a:hover {
-  text-decoration-color: var(--pencil);
+  text-decoration-color: var(--bottle);
 }
 .prose strong {
   color: var(--ink);
   font-weight: 600;
+}
+.prose em {
+  color: var(--brass);
 }
 .prose ul,
 .prose ol {
@@ -274,20 +267,20 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
 }
 .prose code {
   font-family: var(--font-mono);
-  font-size: 0.875em;
-  padding: 0.125em 0.375em;
+  font-size: 0.82em;
+  padding: 0.125em 0.4em;
   background: var(--paper-2);
-  color: var(--ink);
-  border-radius: 0;
+  color: var(--brass);
+  border-radius: 2px;
 }
 .prose blockquote {
-  border-left: 2px solid var(--pencil);
+  border-left: 2px solid var(--foxing);
   padding-left: 1rem;
   margin-left: 0;
   color: var(--ink-mute);
   font-style: italic;
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
 }
 .prose hr {
   height: 1px;
@@ -301,10 +294,12 @@ pre { background: var(--md-surface-container-high); padding: 16px; border-radius
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--pencil);
-  color: var(--paper);
+  background: var(--brass);
+  color: var(--night);
   padding: 0.5rem 1rem;
   z-index: 100;
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
 .skip-link:focus {
   left: 0;
