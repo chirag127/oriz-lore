@@ -1,0 +1,37 @@
+---
+/*
+ * /sign-in — the dedicated sign-in surface. Mounts a Clerk <SignIn> card (one
+ * provider). Reading everywhere else on the site is public and ungated; this
+ * page only opens a session for the personal shelf at /account.
+ */
+import BaseLayout from '~/layouts/BaseLayout.astro'
+import SignInCard from '~/components/SignInCard.tsx'
+---
+
+<BaseLayout
+  title="Sign in — oriz·lore"
+  description="Sign in to oriz. One account works across every oriz site. The shelves stay public and open."
+  noindex={true}
+>
+  <section class="spine page">
+    <header class="page-head">
+      <p class="eyebrow"><a href="/">oriz·lore</a> / sign in</p>
+      <h1>Sign in</h1>
+      <p class="lede">
+        One sign-in works across every oriz site. Reading is always free — sign in only to
+        keep the volumes you mark on your shelf.
+      </p>
+    </header>
+    <div class="si-wrap">
+      <SignInCard client:only="react" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .si-wrap {
+    display: flex;
+    justify-content: center;
+    padding-block: 2.25rem 4rem;
+  }
+</style>
