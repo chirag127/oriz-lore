@@ -15,7 +15,7 @@ export default function HeaderAuth() {
         <UserButton afterSignOutUrl="/" />
       </SignedIn>
       <SignedOut>
-        <SignInButton mode="redirect" redirectUrl="/account/">
+        <SignInButton forceRedirectUrl="/account/">
           <button type="button" className="hdr-signin">
             sign in
           </button>
