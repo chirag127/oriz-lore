@@ -3,13 +3,7 @@
  * Shows UserButton when signed in, SignInButton when signed out.
  * ONE ClerkProvider. Sign-in redirects to /account/ after completion.
  */
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  UserButton,
-} from '@clerk/clerk-react'
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 
 const pk = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY as string | undefined
 
@@ -22,7 +16,9 @@ export default function HeaderAuth() {
       </SignedIn>
       <SignedOut>
         <SignInButton mode="redirect" redirectUrl="/account/">
-          <button type="button" className="hdr-signin">sign in</button>
+          <button type="button" className="hdr-signin">
+            sign in
+          </button>
         </SignInButton>
       </SignedOut>
       <style>{`

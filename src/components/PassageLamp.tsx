@@ -7,8 +7,9 @@
  * If oz-ai throws (every provider down), the whole panel hides — the reading
  * page is never degraded. Lazy island: no blocking JS on first paint.
  */
-import { useState } from 'react'
+
 import { complete } from '@chirag127/oz-ai'
+import { useState } from 'react'
 
 type Mode = 'summary' | 'plain'
 
@@ -58,7 +59,9 @@ export default function PassageLamp({ title }: { title: string }) {
   return (
     <aside className="lamp" aria-label="AI reading aid">
       <div className="lamp-head">
-        <span className="lamp-glyph" aria-hidden="true">☾</span>
+        <span className="lamp-glyph" aria-hidden="true">
+          ☾
+        </span>
         <span className="lamp-title">reading lamp</span>
         <span className="lamp-note">experimental · AI, may err</span>
       </div>

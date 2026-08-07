@@ -5,7 +5,7 @@
  * reader's saved volumes from Firestore (shelves/{clerkUserId}/books), keyed
  * by Clerk id. All keys from env; renders an invitation when signed out.
  */
-import { useEffect, useState } from 'react'
+
 import {
   ClerkProvider,
   SignedIn,
@@ -15,6 +15,7 @@ import {
   useUser,
 } from '@clerk/clerk-react'
 import { collection, getDocs, orderBy, query } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
 import { getDb } from '~/lib/firebase'
 
 const pk = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY as string | undefined
@@ -35,10 +36,7 @@ function ShelfList() {
       setBooks([])
       return
     }
-    const q = query(
-      collection(db, 'shelves', user.id, 'books'),
-      orderBy('addedAt', 'desc'),
-    )
+    const q = query(collection(db, 'shelves', user.id, 'books'), orderBy('addedAt', 'desc'))
     getDocs(q)
       .then((snap) => setBooks(snap.docs.map((d) => d.data() as ShelfBook)))
       .catch(() => setBooks([]))
@@ -47,9 +45,7 @@ function ShelfList() {
   return (
     <div className="acct">
       <div className="acct-head">
-        <span className="acct-hi">
-          Signed in{user?.firstName ? ` — ${user.firstName}` : ''}
-        </span>
+        <span className="acct-hi">Signed in{user?.firstName ? ` — ${user.firstName}` : ''}</span>
         <UserButton afterSignOutUrl="/" />
       </div>
       {books === null ? (
@@ -87,11 +83,13 @@ export default function AccountShelf() {
       <SignedOut>
         <div className="acct">
           <p className="acct-empty">
-            Sign in to keep a shelf — the volumes you mark are saved to your account and
-            follow you across every oriz.in site. Reading needs no account.
+            Sign in to keep a shelf — the volumes you mark are saved to your account and follow you
+            across every oriz.in site. Reading needs no account.
           </p>
           <SignInButton mode="modal">
-            <button type="button" className="acct-signin">sign in</button>
+            <button type="button" className="acct-signin">
+              sign in
+            </button>
           </SignInButton>
         </div>
       </SignedOut>

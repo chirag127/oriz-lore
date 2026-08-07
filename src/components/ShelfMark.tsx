@@ -6,15 +6,10 @@
  * Data: Firestore doc at shelves/{clerkUserId}/books/{slug}. Clerk owns the
  * identity; Firebase stores only the mark + timestamp. All keys from env.
  */
+
+import { ClerkProvider, SignedIn, SignedOut, SignInButton, useUser } from '@clerk/clerk-react'
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  useUser,
-} from '@clerk/clerk-react'
-import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore'
 import { getDb } from '~/lib/firebase'
 
 const pk = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY as string | undefined
@@ -84,7 +79,9 @@ export default function ShelfMark({ slug, title }: { slug: string; title: string
         <SignedOut>
           <SignInButton mode="modal">
             <button type="button" className="shelf-mark shelf-invite">
-              <span className="shelf-glyph" aria-hidden="true">◇</span>
+              <span className="shelf-glyph" aria-hidden="true">
+                ◇
+              </span>
               sign in to keep a shelf
             </button>
           </SignInButton>

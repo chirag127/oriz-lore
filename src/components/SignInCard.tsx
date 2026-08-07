@@ -5,7 +5,7 @@
  * personal shelf (/account) uses. Themed to "Nocturne Archive": gilt lamplight
  * on a dark page, Fraunces headings, Spectral body, Space Mono labels.
  */
-import { ClerkProvider, SignIn, SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react'
+import { ClerkProvider, SignedIn, SignedOut, SignIn, UserButton, useUser } from '@clerk/clerk-react'
 
 const pk = import.meta.env.PUBLIC_CLERK_PUBLISHABLE_KEY as string | undefined
 
@@ -82,7 +82,7 @@ export default function SignInCard() {
     <ClerkProvider publishableKey={pk} afterSignOutUrl="/sign-in/">
       <SignedOut>
         <div className="si-mount">
-          <SignIn routing="hash" signUpUrl="/sign-in/" fallbackRedirectUrl="/account/" />
+          <SignIn routing="hash" signUpUrl="/sign-in/" fallbackRedirectUrl="/account/" appearance={appearance} />
           <p className="si-anon">
             Just here to read? <a href="/books/">Keep reading anonymously →</a> The shelves are
             always open and never ask you to sign in.
