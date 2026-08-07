@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="oriz·lore — a nocturne archive of structured book commentary">
+  <defs>
+    <radialGradient id="lamp" cx="50%" cy="-6%" r="72%">
+      <stop offset="0%" stop-color="#c8a24b" stop-opacity="0.30"/>
+      <stop offset="26%" stop-color="#c8a24b" stop-opacity="0.11"/>
+      <stop offset="60%" stop-color="#14171c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="42%" r="80%">
+      <stop offset="58%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.34"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#14171c"/>
+  <rect width="1200" height="630" fill="url(#lamp)"/>
+  <rect width="1200" height="630" fill="url(#vignette)"/>
+  <line x1="90" y1="150" x2="1110" y2="150" stroke="#c8a24b" stroke-opacity="0.5" stroke-width="1.5"/>
+  <text x="90" y="126" font-family="'Space Mono', monospace" font-size="22" letter-spacing="6" fill="#c8a24b">THE NOCTURNE ARCHIVE</text>
+  <text x="1110" y="126" text-anchor="end" font-family="'Space Mono', monospace" font-size="22" letter-spacing="2" fill="#8b93a0">lore.oriz.in</text>
+  <text x="90" y="330" font-family="'Fraunces', Georgia, serif" font-weight="600" font-size="118" fill="#e8e0ce">oriz<tspan fill="#c8a24b">·</tspan>lore</text>
+  <text x="90" y="420" font-family="'Spectral', Georgia, serif" font-style="italic" font-size="42" fill="#b9b2a2">A nocturne archive of structured book commentary.</text>
+  <text x="90" y="530" font-family="'Space Mono', monospace" font-size="24" letter-spacing="4" fill="#8b93a0">OVERVIEW <tspan fill="#c8a24b">·</tspan> CONTENT MAP <tspan fill="#c8a24b">·</tspan> ANALYSIS <tspan fill="#c8a24b">·</tspan> NARRATION</text>
+  <text x="90" y="576" font-family="'Spectral', Georgia, serif" font-size="24" fill="#6e9e86">Free · no signup · read by lamplight</text>
+</svg>

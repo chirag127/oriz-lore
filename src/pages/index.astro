@@ -79,13 +79,30 @@ const shelves = Array.from(shelfMap.values()).sort((a, b) => b.count - a.count)
 
 const issueNo = String(totalBooks).padStart(3, '0')
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'oriz·lore',
-  url: SITE_CONFIG.origin,
-  description: SITE_CONFIG.description,
-}
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'oriz·lore',
+    url: SITE_CONFIG.origin,
+    description: SITE_CONFIG.description,
+    inLanguage: 'en',
+    isAccessibleForFree: true,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'oriz·lore — the nocturne archive',
+    url: SITE_CONFIG.origin,
+    description: SITE_CONFIG.description,
+    isAccessibleForFree: true,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: totalBooks,
+      name: 'Annotated volumes',
+    },
+  },
+]
 ---
 
 <BaseLayout
