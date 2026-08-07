@@ -4,8 +4,8 @@
  * All config from import.meta.env (PUBLIC_FIREBASE_*), never hardcoded.
  * Returns null when config is absent so the site builds + runs without keys.
  */
-import { initializeApp, getApps, type FirebaseApp } from 'firebase/app'
-import { getFirestore, type Firestore } from 'firebase/firestore'
+import { type FirebaseApp, getApps, initializeApp } from 'firebase/app'
+import { type Firestore, getFirestore } from 'firebase/firestore'
 
 const cfg = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
