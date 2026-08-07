@@ -1,0 +1,15 @@
+{
+  "name": "@chirag127/oz-ai",
+  "version": "0.2.0",
+  "description": "Vendored build of @chirag127/oz-ai (design-system monorepo). Client-side g4f wrapper, no key, multi-provider failover.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" }
+  },
+  "dependencies": {
+    "@gpt4free/g4f.dev": "^1.1.2"
+  }
+}

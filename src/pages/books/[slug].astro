@@ -13,6 +13,7 @@
 import BaseLayout from '~/layouts/BaseLayout.astro'
 import ReadingRibbon from '~/components/ReadingRibbon.tsx'
 import ShelfMark from '~/components/ShelfMark.tsx'
+import PassageLamp from '~/components/PassageLamp.tsx'
 import Marginalia from '~/components/Marginalia.astro'
 import MDXFallback from '~/components/MDXFallback.astro'
 import { getCollection, render } from 'astro:content'
@@ -211,6 +212,8 @@ const jsonLd = {
           <p class="pending"><em>— pending —</em></p>
         )}
       </section>
+
+      {filled > 0 && <PassageLamp client:visible title={data.title} />}
 
       <footer class="book-foot">
         <table class="reading-path-table" aria-label="Section status">
