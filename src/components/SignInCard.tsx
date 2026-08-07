@@ -82,7 +82,12 @@ export default function SignInCard() {
     <ClerkProvider publishableKey={pk} afterSignOutUrl="/sign-in/">
       <SignedOut>
         <div className="si-mount">
-          <SignIn routing="hash" signUpUrl="/sign-in/" fallbackRedirectUrl="/account/" appearance={appearance} />
+          <SignIn
+            routing="hash"
+            signUpUrl="/sign-in/"
+            fallbackRedirectUrl="/account/"
+            appearance={appearance}
+          />
           <p className="si-anon">
             Just here to read? <a href="/books/">Keep reading anonymously →</a> The shelves are
             always open and never ask you to sign in.
